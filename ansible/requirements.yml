@@ -1,0 +1,8 @@
+- src: brianshumate.consul
+  version: "v1.6.1"
+
+- src: rattermeyer.docker
+  version: v0.4
+
+- src: https://github.com/rattermeyer/ansible-role-nomad
+  version: master

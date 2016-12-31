@@ -1,0 +1,7 @@
+---
+- include: playbooks/fix-mirror.yml
+- include: playbooks/consul.yml
+- include: playbooks/docker.yml
+- include: playbooks/nomad.yml
+- include: playbooks/nomad-ui.yml
+- include: playbooks/prometheus.yml

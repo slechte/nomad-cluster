@@ -1,0 +1,30 @@
+- hosts: dockerhosts
+  tasks:
+  - name: "start cadvisor container"
+    docker_container:
+      name: "cadvisor"
+      image: google/cadvisor:{{cadvisor_tag}}
+      volumes:
+      - "/:/rootfs:ro"
+      - "/var/run:/var/run:rw"
+      - "/sys:/sys:ro"
+      - "/var/lib/docker/:/var/lib/docker:ro"
+      published_ports:
+      - "{{cadvisor_host_port}}:8080"
+      command: "--allow_dynamic_housekeeping=true --global_housekeeping_interval=1m0s --housekeeping_interval=30s"
+      restart_policy: unless-stopped
+      restart: True
+
+  - name: install python-consul
+    pip:
+      name: python-consul
+  - name: register cadvisor service
+    consul:
+      service_name: cadvisor
+      service_port: "{{cadvisor_host_port}}"
+      service_address: "{{ansible_host}}"
+      interval: 2m
+      http: http://{{ansible_host}}:9110/metrics
+  vars:
+    cadvisor_tag: latest
+    cadvisor_host_port: 9110

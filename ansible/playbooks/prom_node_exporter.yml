@@ -1,0 +1,42 @@
+- hosts: prometheus-nodes
+  tasks:
+    - name: Create Prometheus user
+      user:
+        name: prometheus
+        shell: /usr/sbin/nologin
+        state: present
+    - name: Create service definition
+      template:
+        src: node_exporter.service.j2
+        dest: /etc/systemd/system/node_exporter.service
+      notify:
+      - reload systemd
+      - restart node_exporter
+    - name: check if node_exporter is installed
+      stat:
+        path: /usr/local/bin/node_exporter
+      register: st_node_exporter
+    - name: "get node-exporter"
+      unarchive:
+        src: https://github.com/prometheus/node_exporter/releases/download/v0.13.0/node_exporter-0.13.0.linux-amd64.tar.gz
+        dest: /usr/local/bin
+        remote_src: True
+        extra_opts: "--strip-components=1"
+      when: not st_node_exporter.stat.exists
+    - name: install python-consul
+      pip:
+        name: python-consul
+    - name: register node_exporter service
+      consul:
+        service_name: node_exporter
+        service_port: 9100
+        service_address: "{{ansible_host}}"
+        interval: 2m
+        http: http://{{ansible_host}}:9100
+  handlers:
+  - name: reload systemd
+    command: systemctl daemon-reload
+  - name: restart node_exporter
+    service:
+      name: node_exporter
+      state: restarted

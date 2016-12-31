@@ -1,0 +1,11 @@
+- hosts: nomadhosts
+  pre_tasks:
+  - name: install archive handlers
+    apt:
+      name: "{{ item }}"
+    with_items:
+    - unzip
+    - tar
+  roles:
+    - role: ansible-role-nomad
+      nomad_iface: 'enp0s8'

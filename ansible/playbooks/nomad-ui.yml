@@ -1,0 +1,10 @@
+- hosts: server1
+  tasks:
+  - name: start ui container
+    docker_container:
+      name: nomad-ui
+      image: jippi/hashi-ui
+      ports:
+      - "8000:3000"
+      env:
+        NOMAD_ADDR: "http://192.168.56.21:4646"

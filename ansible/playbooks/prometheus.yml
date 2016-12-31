@@ -1,0 +1,24 @@
+- hosts: prometheus-servers
+  tasks:
+  - name: "create config dir"
+    file:
+      path: "/etc/prometheus"
+      state: directory
+      mode: "0700"
+  - name: "create prometheus config"
+    template:
+      src: prometheus.yml.j2
+      dest: /etc/prometheus/prometheus.yml
+  - name: "start container"
+    docker_container:
+      name: prometheus
+      image: "prom/prometheus"
+      ports:
+      - "9090:9090"
+      volumes:
+      - "/etc/prometheus:/etc/prometheus"
+      restart_policy: unless-stopped
+      restart: True
+
+- include: prom_node_exporter.yml
+- include: prom_cadvisor.yml
