@@ -33,6 +33,12 @@
         service_address: "{{ansible_host}}"
         interval: 2m
         http: http://{{ansible_host}}:9100
+    - name: ensure node_exporter is started
+      service:
+        name: node_exporter
+        state: restarted
+        enabled: True
+
   handlers:
   - name: reload systemd
     command: systemctl daemon-reload
