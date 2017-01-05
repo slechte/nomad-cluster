@@ -1,4 +1,4 @@
-{% set comma = joiner(", ") %}
+  {% set comma = joiner(", ") %}
 {% set comma_nodes = joiner(", ") %}
 
 {
@@ -22,7 +22,7 @@
   "encrypt": "{{ consul_raw_key }}",
   "log_level": "{{ consul_log_level }}",
   "enable_syslog": {{ consul_syslog_enable|lower }},
-  "start_join": [
+  "retry_join": [
     {% set interface = 'ansible_' ~ consul_iface %}
     {% for host in groups[consul_group_name] %}
     {% if host != inventory_hostname and (hostvars[host]['consul_node_role'] == 'server' or hostvars[host]['consul_node_role'] == 'bootstrap') %}

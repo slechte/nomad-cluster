@@ -36,4 +36,15 @@ client {
 {% endfor %}
   }
 {% endif %}
+{% if nomad_client_options is defined and nomad_client_options and nomad_client %}
+  options={
+    {% for key, value in nomad_client_options.iteritems() %}
+    {% if not loop.last %}
+    "{{key}}" = "{{value}}",
+    {% else %}
+    "{{key}}" = "{{value}}"
+    {% endif %}
+    {% endfor %}
+  }
+{% endif %}
 }
