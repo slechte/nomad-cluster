@@ -41,7 +41,6 @@ Vagrant.configure(2) do |config|
        vb.customize ["modifyvm", :id, "--memory", reserved_mem]
        vb.customize ["modifyvm", :id, "--cpus", reserved_cpu]
        vb.gui = false
-       vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
      end #vb
      machine_config.vm.provision "shell", inline: "apt-get install python2.7"
    end # machine_config
