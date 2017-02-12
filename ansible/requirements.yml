@@ -4,5 +4,7 @@
 - src: rattermeyer.docker
   version: v0.4
 
-- src: https://github.com/rattermeyer/ansible-role-nomad
-  version: master
+# Commented out, uses currently development version from my ansible/roles directory
+#- src: https://github.com/rattermeyer/ansible-role-nomad
+#  name: rattermeyer.vagrant
+#  version: master
