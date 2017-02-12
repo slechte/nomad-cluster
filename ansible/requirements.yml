@@ -6,5 +6,5 @@
 
 # Commented out, uses currently development version from my ansible/roles directory
 #- src: https://github.com/rattermeyer/ansible-role-nomad
-#  name: rattermeyer.vagrant
+#  name: rattermeyer.nomad
 #  version: master
