@@ -1,12 +1,14 @@
 - hosts: consulhosts
   pre_tasks:
-  - name: install pakete
-    apt:
+  - name: install packages
+    become: True
+    package:
       name: "{{ item }}"
     with_items:
     - tar
     - unzip
   roles:
   - role: brianshumate.consul
+    become: True
     consul_iface: enp0s8
     consul_group_name: consulhosts

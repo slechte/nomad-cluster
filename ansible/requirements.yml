@@ -1,8 +1,8 @@
 - src: brianshumate.consul
-  version: "v1.6.1"
+  version: "v.1.8.0"
 
 - src: rattermeyer.docker
-  version: v0.4
+  version: v0.5
 
 # Commented out, uses currently development version from my ansible/roles directory
 #- src: https://github.com/rattermeyer/ansible-role-nomad

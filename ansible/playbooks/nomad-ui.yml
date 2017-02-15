@@ -1,9 +1,14 @@
 - hosts: server1
   tasks:
+  - name: Install docker-py
+    pip:
+      name: docker-py
   - name: start ui container
     docker_container:
       name: nomad-ui
       image: jippi/hashi-ui
+      command: "--nomad-enable --consul-enable"
+      network_mode: host
       ports:
       - "8000:3000"
       env:

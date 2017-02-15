@@ -1,4 +1,13 @@
 ---
+- hosts: controller
+  tasks:
+  - name: "install tools"
+    become: True
+    package:
+      name: "{{ item }}"
+    with_items:
+    - tar
+    - unzip
 - include: playbooks/fix-mirror.yml
 - include: playbooks/consul.yml
 - include: playbooks/docker.yml

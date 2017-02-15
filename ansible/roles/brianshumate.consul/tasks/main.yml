@@ -32,7 +32,7 @@
   when: consul_iptables_enable and
         (ansible_distribution in ['RedHat', 'CentOS'] and ansible_distribution_version|version_compare(6, '>='))
 
-- name: Fail if both dnsmasq and iptables are enabled
+- name: Fail if both Dnsmasq and iptables are enabled
   fail:
     msg: "DNS Forwarding via both dnsmasq and iptables is not supported, enable only one option"
   when: consul_dnsmasq_enable and consul_iptables_enable
@@ -69,6 +69,7 @@
 
 - name: Writing key locally to share with other servers that are new
   local_action: copy content={{ consul_raw_key }} dest=/tmp/consul_raw.key
+  become: no
   when: consul_raw_key is defined and bootstrap_marker.stat.exists
 
 - name: Reading key for servers that are missing it
@@ -77,6 +78,7 @@
 
 - name: Deleting key file
   local_action: file path=/tmp/consul_raw.key state=absent
+  become: no
   when: consul_raw_key is defined and bootstrap_marker.stat.exists
 
 - block:
@@ -145,19 +147,6 @@
 
   - name: Consul up?
     wait_for: delay=5 path=/var/run/consul/consul.pid state=present
-
-  - block:
-      - name: Reconfigure bootstrap node (systemd)
-        replace: dest=/lib/systemd/system/consul.service regexp='bootstrap' replace='server' backup=no
-      - name: Reload unit configuration
-        shell: systemctl daemon-reload
-        notify:
-          - restart consul
-    when: consul_node_role == "bootstrap" and ansible_service_mgr == "systemd"
-
-  - name: Reconfigure bootstrap node (init.d)
-    replace: dest=/etc/init.d/consul regexp='bootstrap' replace='server' backup=no
-    when: consul_node_role == "bootstrap" and not ansible_service_mgr == "systemd" and ansible_distribution_major_version|int <= 7
 
   - name: Bootstrapped marker
     file: dest=/etc/consul/.consul_bootstrapped state=touch

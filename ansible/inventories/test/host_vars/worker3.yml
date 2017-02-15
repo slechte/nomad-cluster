@@ -1,0 +1,2 @@
+nomad_client_options:
+  "driver.raw_exec.enable": "1"

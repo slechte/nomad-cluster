@@ -292,3 +292,43 @@
 ## v1.6.1
 
 - Drop Trusty support from meta for now (for #19)
+
+## v1.6.2
+
+- Stop reconfiguring bootstrap node as it's not really necessary and
+  spurious races cause failure to re-establish cluster quorum when doing so
+- CONSUL_VERSION environment variable
+- Deprecated default variables cleanup
+
+## v1.6.3
+
+- Ensure that all local_action tasks have become: no (thanks @itewk)
+
+## v1.7.0
+
+- Consul version 0.7.2
+
+## v1.7.2
+
+- Fix non-working cleanup task
+- Update README
+
+## v1.7.3
+
+- Version updates
+- Task edits
+- add CONTRIBUTING.md
+
+## v1.7.4
+
+- Consul 0.7.3
+- Update documentation
+
+## v1.8.0
+
+- Consul 0.7.4
+- BREAKING CHANGE: Deprecate read/write of ACL tokens from file system
+  functionality and prefer setting tokens from existing cluster nodes with
+  CONSUL_ACL_MASTER_TOKEN and  CONSUL_ACL_REPLICATION_TOKEN environment
+  variables instead
+- Update documentation

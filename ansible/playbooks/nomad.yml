@@ -7,5 +7,5 @@
     - unzip
     - tar
   roles:
-    - role: ansible-role-nomad
+    - role: rattermeyer.nomad
       nomad_iface: 'enp0s8'

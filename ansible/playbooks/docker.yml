@@ -5,9 +5,4 @@
         name: "linux-image-extra-{{ansible_kernel}}"
   roles:
     - role: rattermeyer.docker
-      docker_group_members: vagrant
-      docker_opts: >
-        -H unix://
-        -H tcp://0.0.0.0:2375
-        --cluster-store consul://localhost:8500
-        --cluster-advertise {{ansible_host}}:2375
+      become: True
