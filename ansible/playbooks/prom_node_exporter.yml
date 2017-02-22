@@ -1,4 +1,5 @@
 - hosts: prometheus-nodes
+  become: True
   tasks:
     - name: Create Prometheus user
       user:

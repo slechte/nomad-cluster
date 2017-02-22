@@ -1,0 +1,27 @@
+---
+- hosts: localhost
+  roles:
+  - role: local.pki
+    pki_servers:
+      - cname: consul.server1.localdomain
+        include_localhost: True
+        sans:
+          - consul.server1.localdomain
+        altips:
+        - 192.168.56.21
+      - cname: consul.server2.localdomain
+        include_localhost: True
+        sans:
+          - consul.server2.localdomain
+        altips:
+        - 192.168.56.22
+      - cname: consul.server3.localdomain
+        include_localhost: True
+        sans:
+          - consul.server3.localdomain
+        altips:
+        - 192.168.56.22
+    pki_clients:
+      - consul-worker1
+      - consul-worker2
+      - consul-worker3

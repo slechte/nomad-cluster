@@ -1,6 +1,7 @@
 - hosts: dockerhosts
   tasks:
   - name: "start cadvisor container"
+    become: True
     docker_container:
       name: "cadvisor"
       image: google/cadvisor:{{cadvisor_tag}}
@@ -16,6 +17,7 @@
       restart: True
 
   - name: install python-consul
+    become: True
     pip:
       name: python-consul
   - name: register cadvisor service

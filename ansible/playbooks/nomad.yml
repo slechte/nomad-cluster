@@ -1,4 +1,5 @@
 - hosts: nomadhosts
+  become: True 
   pre_tasks:
   - name: install archive handlers
     apt:

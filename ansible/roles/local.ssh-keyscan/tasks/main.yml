@@ -1,0 +1,14 @@
+---
+# tasks file for local.ssh-keyscan
+- name: perform ssh-keyscan
+  shell: ssh-keyscan -H {{ansible_host}}
+  register: keyscan
+
+- name: show results
+  debug: msg="{{ssh_keyscan_known_hosts_file}}"
+
+- lineinfile:
+    dest: "{{ ssh_keyscan_known_hosts_file }}"
+    create: yes
+    line: '{{ item }}'
+  with_items: "{{ keyscan.stdout_lines }}"

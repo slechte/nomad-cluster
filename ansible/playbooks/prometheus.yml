@@ -1,4 +1,5 @@
 - hosts: prometheus-servers
+  become: True
   tasks:
   - name: "create config dir"
     file:

@@ -1,4 +1,5 @@
 - hosts: server1
+  become: True
   tasks:
   - name: Install docker-py
     pip:

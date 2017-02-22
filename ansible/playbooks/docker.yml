@@ -1,8 +1,9 @@
 - hosts: dockerhosts
   pre_tasks:
-    - name: "install aufs"
-      apt:
-        name: "linux-image-extra-{{ansible_kernel}}"
+  - name: "install aufs"
+    apt:
+      name: "linux-image-extra-{{ansible_kernel}}"
   roles:
     - role: rattermeyer.docker
+      pip_version_docker_compose: 1.9.0
       become: True

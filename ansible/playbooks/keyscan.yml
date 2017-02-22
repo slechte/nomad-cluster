@@ -1,0 +1,7 @@
+---
+- hosts: all
+  connection: local
+  gather_facts: no
+  roles:
+  - role: local.ssh-keyscan
+    ssh_keyscan_known_hosts_file: ~/.ssh/known_hosts
