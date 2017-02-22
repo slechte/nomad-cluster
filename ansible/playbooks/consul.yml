@@ -20,7 +20,7 @@
   - role: rattermeyer.consul
     consul_iface: enp0s8
     consul_group_name: consulhosts
-#    consul_encrypt_key: "b42sY2S3B5EbhrF5UMtI5g=="
+    consul_encrypt_key: "b42sY2S3B5EbhrF5UMtI5g=="
     consul_acl_enable: False
     consul_cleanup: False
     consul_tls_enable: False
