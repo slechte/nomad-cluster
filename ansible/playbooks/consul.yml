@@ -41,6 +41,7 @@
   - role: rattermeyer.consul
     serial: 1
     become: True
+    consul_encrypt_key: "b42sY2S3B5EbhrF5UMtI5g=="
     consul_iface: enp0s8
     consul_group_name: consulhosts
     consul_tls_ca_crt: "ca.pem"

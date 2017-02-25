@@ -8,6 +8,9 @@
     with_items:
     - tar
     - unzip
+- include: playbooks/pki.yml
+  when: pki_create == True
+  
 - include: playbooks/fix-mirror.yml
 - include: playbooks/consul.yml
 - include: playbooks/docker.yml

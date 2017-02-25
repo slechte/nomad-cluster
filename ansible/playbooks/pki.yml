@@ -1,5 +1,5 @@
 ---
-- hosts: localhost
+- hosts: controller
   roles:
   - role: local.pki
     pki_servers:
