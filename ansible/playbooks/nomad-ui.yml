@@ -10,7 +10,12 @@
       image: jippi/hashi-ui
       command: "--nomad-enable --consul-enable"
       network_mode: host
-      ports:
-      - "8000:3000"
+      recreate: True
+      #published_ports:
+      #- "8000:3000"
       env:
+        NOMAD_ENABLE: 1
         NOMAD_ADDR: "http://192.168.56.21:4646"
+        CONSUL_ENABLE: 1
+        CONSUL_ADDR: "{{ansible_hostname}}:8500"
+        CONSUL_ACL_TOKEN: "CH4NG3M3CH4NG3M3CH4NG3M3CH4NG3M3"
