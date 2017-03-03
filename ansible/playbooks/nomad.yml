@@ -4,4 +4,3 @@
     - role: rattermeyer.nomad
       nomad_iface: 'enp0s8'
       nomad_enable_syslog: True
-      nomad_encrypt_key: "rezSiffcvgGyezYSen/RQA=="
