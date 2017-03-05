@@ -30,6 +30,7 @@
     consul_tls_ca_crt: "ca.pem"
     consul_tls_crt: "consul.{{ ansible_hostname }}.localdomain.pem"
     consul_tls_key: "consul.{{ ansible_hostname }}.localdomain-key.pem"
+    consul_verify_incoming: True
     consul_http_bind_address: 127.0.0.1
 
 # install clients
@@ -44,6 +45,8 @@
     consul_encrypt_key: "b42sY2S3B5EbhrF5UMtI5g=="
     consul_iface: enp0s8
     consul_group_name: consulhosts
+    consul_tls_enable: True
+    consul_tls_src_dir: /home/vagrant/pki
     consul_tls_ca_crt: "ca.pem"
     consul_tls_crt: "consul-{{ ansible_hostname }}.pem"
     consul_tls_key: "consul-{{ ansible_hostname }}-key.pem"

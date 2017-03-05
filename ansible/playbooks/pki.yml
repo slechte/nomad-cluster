@@ -20,7 +20,11 @@
         sans:
           - consul.server3.localdomain
         altips:
-        - 192.168.56.22
+        - 192.168.56.23
+      - cname: server.global.nomad
+        include_localhost: True
+      - cname: client.global.nomad
+        include_localhost: True
     pki_clients:
       - consul-worker1
       - consul-worker2

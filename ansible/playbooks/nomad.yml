@@ -4,3 +4,7 @@
     - role: rattermeyer.nomad
       nomad_iface: 'enp0s8'
       nomad_enable_syslog: True
+      nomad_tls_enable: True
+      nomad_tls_src_dir: /home/vagrant/pki
+      nomad_tls_ca_crt: "ca.pem"
+      nomad_tls_verify_server_hostname: True
