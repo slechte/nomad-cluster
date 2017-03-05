@@ -10,10 +10,10 @@
     - unzip
 - include: playbooks/pki.yml
   when: pki_create == True
-  
+
 - include: playbooks/fix-mirror.yml
-- include: playbooks/consul.yml
+- include: playbooks/servicediscovery.yml
 - include: playbooks/docker.yml
-- include: playbooks/nomad.yml
+- include: playbooks/clusterscheduler.yml
+- include: playbooks/monitoring.yml
 - include: playbooks/nomad-ui.yml
-- include: playbooks/prometheus.yml

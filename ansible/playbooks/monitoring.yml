@@ -1,0 +1,5 @@
+---
+- include: prometheus.yml
+- include: prom_node_exporter.yml
+- include: prom_cadvisor.yml
+- include: grafana.yml
