@@ -20,6 +20,3 @@
       - "/etc/prometheus:/etc/prometheus"
       restart_policy: unless-stopped
       restart: True
-
-- include: prom_node_exporter.yml
-- include: prom_cadvisor.yml
