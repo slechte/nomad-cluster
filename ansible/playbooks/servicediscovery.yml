@@ -1,3 +1,3 @@
 ---
 - include: consul.yml
-#- include: dnsmasq.yml
+- include: dnsmasq-consul.yml
