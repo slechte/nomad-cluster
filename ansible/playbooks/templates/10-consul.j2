@@ -1,0 +1,8 @@
+# {{ ansible_managed | comment }}
+# Enable forward lookup of the 'consul' domain:
+server=/{{ dnsmasq_consul_postfix }}/{{ dnsmasq_consul_host }}#{{ dnsmasq_consul_port }}
+
+# enable reverse DNS lookups
+{% for rev_server in dnsmasq_consul_rev_servers %}
+rev-server={{ rev_server }},{{ dnsmasq_consul_host }}#{{ dnsmasq_consul_port }}
+{% endfor %}
