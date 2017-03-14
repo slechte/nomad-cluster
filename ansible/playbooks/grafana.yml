@@ -1,4 +1,6 @@
 - hosts: grafana-servers
+  gather_facts: False
+  become: True
   tasks:
   - name: Create Grafana user
     user:
