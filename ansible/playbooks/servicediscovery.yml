@@ -1,3 +1,7 @@
 ---
 - include: consul.yml
+<<<<<<< HEAD
+#- include: dnsmasq.yml
+=======
 - include: dnsmasq-consul.yml
+>>>>>>> c86a856064cf68dc5a46b72acef2382bad3abd6e
