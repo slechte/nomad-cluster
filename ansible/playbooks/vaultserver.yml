@@ -5,8 +5,12 @@
   - role: rattermeyer.vault
     vault_primary_node: server1.node.dc1.consul
     vault_iface: enp0s8
-    vault_consul: "127.0.0.1:8500"
+    vault_config_consul_address: "127.0.0.1:8543"
     vault_config_consul_token: "CH4NG3M3CH4NG3M3CH4NG3M3CH4NG3M3"
+    vault_config_consul_scheme: "https"
+    vault_config_consul_tls_ca_crt: "ca.pem"
+    vault_config_consul_tls_crt: "consul.{{ ansible_hostname }}.localdomain.pem"
+    vault_config_consul_tls_key: "consul.{{ ansible_hostname }}.localdomain-key.pem"
     vault_config_listener_tls_disable: 0
     vault_tls_enable: True
     vault_tls_src_dir: /home/vagrant/pki
@@ -18,3 +22,4 @@
     vault_config_consul_tls_key_file: "consul.{{ ansible_hostname }}.localdomain-key.pem"
     vault_cluster_name: vault_cluster
     vault_config_listener_cluster_address: server1.node.dc1.consul
+    vault_scheme: "https"
