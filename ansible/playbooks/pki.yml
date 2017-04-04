@@ -29,3 +29,4 @@
       - consul-worker1
       - consul-worker2
       - consul-worker3
+      - consul-controller

@@ -51,3 +51,26 @@
     consul_tls_crt: "consul-{{ ansible_hostname }}.pem"
     consul_tls_key: "consul-{{ ansible_hostname }}-key.pem"
     consul_http_bind_address: 127.0.0.1
+
+- hosts: consul_servers
+  become: True
+  tasks:
+  - name: "additional packages"
+    pip:
+      name: "{{ item }}"
+    with_items:
+    - pyhcl
+
+  - name: "create vault token"
+    consul_acl:
+      mgmt_token: "{{ consul_acl_master_token }}"
+      name: "vault token"
+      token: "{{ consul_acl_vault_token }}"
+      token_type: "management"
+      scheme: https
+      port: 8543
+# TODO: should not be required, it should be handled differently
+      validate_certs: False
+  run_once: True
+  tags:
+  - acls
