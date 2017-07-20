@@ -1,0 +1,5 @@
+# for dev / test not only security, but also updates, to see early that something breaks
+# for prod we only take unattended security upgrades
+managed_nodes_unattended_origins_patterns:
+- 'origin=Ubuntu,archive=${distro_codename}-security'
+- 'origin=Ubuntu,archive=${distro_codename}-updates'

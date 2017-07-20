@@ -20,6 +20,7 @@
   - role: rattermeyer.consul
     consul_iface: enp0s8
     consul_group_name: consulhosts
+# TODO move to vault
     consul_encrypt_key: "b42sY2S3B5EbhrF5UMtI5g=="
     consul_acl_enable: True
     consul_acl_master_token_display: True
@@ -30,7 +31,7 @@
     consul_tls_ca_crt: "ca.pem"
     consul_tls_crt: "consul.{{ ansible_hostname }}.localdomain.pem"
     consul_tls_key: "consul.{{ ansible_hostname }}.localdomain-key.pem"
-    consul_verify_incoming: True
+    consul_verify_incoming: False
     consul_http_bind_address: 127.0.0.1
 
 # install clients
@@ -42,6 +43,7 @@
   - role: rattermeyer.consul
     serial: 1
     become: True
+# TODO move to vault
     consul_encrypt_key: "b42sY2S3B5EbhrF5UMtI5g=="
     consul_iface: enp0s8
     consul_group_name: consulhosts
@@ -55,11 +57,20 @@
 - hosts: consul_servers
   become: True
   tasks:
+  - name: "ensure pip is installed"
+    package:
+      name: "{{ item }}"
+    with_items:
+    - python-pip
+    - libffi-dev
+    - libssl-dev
   - name: "additional packages"
     pip:
       name: "{{ item }}"
     with_items:
     - pyhcl
+    - requests[security]
+    - python-consul
 
   - name: "create vault token"
     consul_acl:

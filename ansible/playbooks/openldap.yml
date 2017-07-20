@@ -1,0 +1,41 @@
+---
+# TODO: Provide custom TLS certificates
+# for server and admin
+- hosts: openldap-servers
+  become: True
+  tasks:
+  - name: "create data volume container"
+    docker_container:
+      name: openldap-data
+      image: busybox
+      state: stopped
+      volumes:
+      - /var/lib/ldap
+      - /etc/ldap/slapd.d
+  - name: "create openldap server container"
+    docker_container:
+      name: openldap
+      image: osixia/openldap:1.1.8
+#      env:
+#        LDAP_ORGANISATION: "Nomad CD Env Comp"
+#        LDAP_DOMAIN: "cd-rock.com"
+#        LDAP_ADMIN_PASSWORD: "c2R0CK"
+      restart_policy: always
+      ports:
+      - "389:389"
+      - "636:636"
+      volumes_from:
+      - openldap-data
+  - name: "create phpldapadmin container"
+    docker_container:
+      name: phpldapadmin
+      image: osixia/phpldapadmin:0.6.12
+      restart_policy: always
+      recreate: True
+      env:
+        PHPLDAPADMIN_HTTPS: True
+#        PHPLDAPADMIN_LDAP_HOSTS: "#PYTHON2BASH:[{'192.168.56.22': [{'server': [{'tls': True}]},{'login': [{'bind_id': 'cn=admin,dc=cd-rock,dc=com'}]}]}]"
+        PHPLDAPADMIN_LDAP_HOSTS: "#PYTHON2BASH:[{'server2.node.consul': [{'server': [{'tls': True}]}]}]"
+      ports:
+      - "8280:80"
+      - "8443:443"

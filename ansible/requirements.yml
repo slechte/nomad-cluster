@@ -6,3 +6,6 @@
 
 - src: rattermeyer.nomad
   version: v0.2
+
+- src: jnv.unattended-upgrades
+  version: v1.3.0
