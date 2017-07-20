@@ -13,6 +13,7 @@
 
 - include: playbooks/fix-mirror.yml
 - include: playbooks/servicediscovery.yml
+- include: playbooks/vaultserver.yml
 - include: playbooks/docker.yml
 - include: playbooks/clusterscheduler.yml
 - include: playbooks/monitoring.yml
