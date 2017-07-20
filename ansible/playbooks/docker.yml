@@ -1,6 +1,7 @@
 - hosts: dockerhosts
   pre_tasks:
   - name: "install aufs"
+    become: True
     apt:
       name: "linux-image-extra-{{ansible_kernel}}"
   roles:
