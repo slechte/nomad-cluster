@@ -5,6 +5,9 @@
     pip:
       name: docker-py
   - name: start hashi-ui container
+  # This container is started with host network mode
+  # it is therefore directly accessible on the host interface / port
+  # this means here, port 3000
     docker_container:
       name: nomad-ui
       image: jippi/hashi-ui
@@ -12,8 +15,6 @@
       network_mode: host
       recreate: True
       restart_policy: always
-      published_ports:
-      - "9000:3000"
       env:
         NOMAD_ENABLE: 1
         NOMAD_ADDR: "http://192.168.56.21:4646"
