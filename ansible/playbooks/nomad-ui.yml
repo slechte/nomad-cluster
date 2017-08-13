@@ -30,4 +30,5 @@
       ports:
       - "8000:8000"
       env:
-        VAULT_URL_DEFAULT: https://server1.node.dc1.consul:8200
+        VAULT_URL_DEFAULT: https://vault.service.consul:8200
+        CUSTOM_CA_CERT: "{{lookup('file','~/pki/ca.pem')}}"

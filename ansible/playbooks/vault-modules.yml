@@ -1,0 +1,11 @@
+---
+- hosts: vault_servers
+  tasks:
+  - name: "install pip"
+    become: True
+    package:
+      name: python-pip
+  - name: "install hashicorp-vault-module"
+    become: True
+    pip:
+      name: ansible-modules-hashivault

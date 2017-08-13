@@ -1,0 +1,50 @@
+---
+# TODO: currently it only works with verify==False.
+# TODO: It should be made possible to specify the CA for the self signed SSL cert used by VAULT
+- hosts: vault_servers
+  environment:
+    VAULT_ADDR: https://127.0.0.1:8200
+    VAULT_CAPATH: /etc/ssl/certs
+    VAULT_CACERT: /etc/ssl/certs/cluster-ca.pem
+  tasks:
+  - name: "register vault status"
+    hashivault_status:
+      verify: False
+    ignore_errors: True
+    register: vault_status
+
+  - name: "debug"
+    debug:
+      var: vault_status
+
+  - name: "initialize vault"
+    block:
+    - name: "init vault"
+      hashivault_init:
+        verify: False
+      register: vault_init
+    - name: "backup keys"
+      become: True
+      copy:
+        content: "{{vault_init | to_json}}"
+        dest: "/etc/vault/keys.json"
+    when: vault_status|failed
+
+  - name: "register vault status"
+    hashivault_status:
+      verify: False
+    ignore_errors: True
+    register: vault_status
+
+  - name: "unseal vault"
+    block:
+      - name: "lookup keys"
+        slurp:
+          src: /etc/vault/keys.json
+        register: vault_keys
+      - set_fact:
+          vault_init: "{{vault_keys['content'] | b64decode }}"
+      - hashivault_unseal:
+          keys: "{{vault_init.keys_base64 | join(' ')}}"
+          verify: False
+    when: vault_status.status.sealed
