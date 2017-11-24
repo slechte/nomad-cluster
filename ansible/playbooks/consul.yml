@@ -72,16 +72,16 @@
     - requests[security]
     - python-consul
 
-  - name: "create vault token"
-    consul_acl:
-      mgmt_token: "{{ consul_acl_master_token }}"
-      name: "vault token"
-      token: "{{ consul_acl_vault_token }}"
-      token_type: "management"
-      scheme: https
-      port: 8543
-# TODO: should not be required, it should be handled differently
-      validate_certs: False
+#  - name: "create vault token"
+#    consul_acl:
+#      mgmt_token: "{{ consul_acl_master_token }}"
+#      name: "vault token"
+#      token: "{{ consul_acl_vault_token }}"
+#      token_type: "management"
+#      scheme: https
+#      port: 8543
+## TODO: should not be required, it should be handled differently
+#      validate_certs: False
   run_once: True
   tags:
   - acls

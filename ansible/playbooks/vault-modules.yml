@@ -9,3 +9,4 @@
     become: True
     pip:
       name: ansible-modules-hashivault
+      version: 3.7.0

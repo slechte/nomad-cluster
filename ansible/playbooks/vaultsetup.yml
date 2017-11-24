@@ -2,20 +2,23 @@
 # TODO: currently it only works with verify==False.
 # TODO: It should be made possible to specify the CA for the self signed SSL cert used by VAULT
 - hosts: controller
+  vars:
+    vault_cacert: "/etc/ssl/certs/cluster-ca.pem"
   environment:
     VAULT_ADDR: https://192.168.56.21:8200
     VAULT_CAPATH: /etc/ssl/certs
     VAULT_CACERT: /etc/ssl/certs/cluster-ca.pem
+
   tasks:
   - name: "Ensure /etc/vault exists"
-    become: True
+    become: yes
     file:
       path: "/etc/vault"
       state: directory
-      
+
   - name: "register vault status"
     hashivault_status:
-      verify: False
+      ca_cert: "{{vault_cacert}}"
     ignore_errors: True
     register: vault_status
 
@@ -27,7 +30,7 @@
     block:
     - name: "init vault"
       hashivault_init:
-        verify: False
+        ca_cert: "{{vault_cacert}}"
       register: vault_init
     - name: "backup keys"
       become: True
@@ -46,9 +49,13 @@
         vault_init: "{{vault_keys['content'] | b64decode }}"
     when: vault_status|succeeded
 
+  - name: "keys"
+    debug:
+      msg: "{{vault_keys}}"
+
   - name: "register vault status"
     hashivault_status:
-      verify: False
+      ca_cert: "{{vault_cacert}}"
     ignore_errors: True
     register: vault_status
 
@@ -61,7 +68,7 @@
 
   - name: "set nomad server policy"
     hashivault_policy_set:
-      verify: False
+      ca_cert: "{{vault_cacert}}"
       name: nomad_server
       rules: "{{ lookup('file', 'nomad-server-policy.hcl')}}"
       token: "{{vault_init.root_token}}"
@@ -69,16 +76,29 @@
 
   - name: "set nomad cluster role"
     hashivault_write:
-      verify: False
+      ca_cert: "{{vault_cacert}}"
       secret: /auth/token/roles/nomad-cluster
       data: "{{ lookup('file', 'nomad-cluster-role.json')}}"
       token: "{{vault_init.root_token}}"
     register: vault_role_set
 
-  - name: "create vault token"
+
+#
+# This token is used to allow nomad access to vault secrets.
+# This references the nomad server policy (nomad_server) defined above
+#
+  - name: "lookup token"
+    hashivault_token_lookup:
+      lookup_token: "{{vault_init.root_token}}"
+      token: "{{vault_init.root_token}}"
+    register: vault_nomad_token
+
+  - debug:
+      msg: "{{vault_nomad_token}}"
+  - name: "create vault nomad token"
     hashivault_token_create:
-      verify: False
-      display_name: "nomad_token"
+      ca_cert: "{{vault_cacert}}"
+      display_name: "nomad"
       policies:
       - nomad_server
       renewable: True
