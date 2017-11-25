@@ -1,3 +1,5 @@
 ---
 nomad_tls_crt: "server.global.nomad.pem"
 nomad_tls_key: "server.global.nomad-key.pem"
+nomad_tls_client_crt: "client.global.nomad.pem"
+nomad_tls_client_key: "client.global.nomad-key.pem"

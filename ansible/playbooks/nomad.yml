@@ -13,5 +13,5 @@
       nomad_tls_ca_crt: "ca.pem"
       nomad_tls_verify_server_hostname: True
       nomad_vault: True
-      nomad_vault_ca_file: "ca.pem"
+      nomad_vault_ca_file: "/etc/nomad/ssl/ca.pem"
       nomad_vault_token: "{{nomad_token.auth.client_token}}"

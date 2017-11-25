@@ -1,3 +1,9 @@
 ---
+# This is a bit "strange"
+# need to think of a better solution.
+# probably simply specify a list of key material that shoud be copied
+# TODO
 nomad_tls_crt: "client.global.nomad.pem"
 nomad_tls_key: "client.global.nomad-key.pem"
+nomad_tls_client_crt: "client.global.nomad.pem"
+nomad_tls_client_key: "client.global.nomad-key.pem"
