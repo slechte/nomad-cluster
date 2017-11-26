@@ -14,9 +14,14 @@
       network_mode: host
       recreate: True
       restart_policy: always
+      volumes:
+      - "/etc/vault/ssl:/etc/vault/ssl:ro"
+      - "/etc/nomad/ssl:/etc/nomad/ssl:ro"
       env:
+        # TODO should be https://nomad.service.consul:4646
+        NOMAD_ADDR: https://192.168.56.21:4646
+        NOMAD_CACERT: /etc/nomad/ssl/ca.pem
         NOMAD_ENABLE: 1
-        NOMAD_ADDR: "http://nomad.service.consul:4646"
         CONSUL_ENABLE: 1
         CONSUL_ADDR: "{{ansible_hostname}}:8500"
         CONSUL_ACL_TOKEN: "CH4NG3M3CH4NG3M3CH4NG3M3CH4NG3M3"
@@ -29,5 +34,5 @@
       ports:
       - "8000:8000"
       env:
-        VAULT_URL_DEFAULT: https://vault.service.consul:8200
+        VAULT_URL_DEFAULT: https://active.vault.service.consul:8200
         CUSTOM_CA_CERT: "{{lookup('file','~/pki/ca.pem')}}"
