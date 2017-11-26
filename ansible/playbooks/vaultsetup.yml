@@ -70,12 +70,8 @@
     ignore_errors: True
     register: vault_status
 
-  - name: "unseal vault"
-    block:
-      - hashivault_unseal:
-          keys: "{{vault_init.keys_base64 | join(' ')}}"
-          verify: False
-    when: vault_status.status.sealed
+  - name: unseal vault
+    import_tasks: vault_unseal.yml
 
   - name: "set nomad server policy"
     hashivault_policy_set:

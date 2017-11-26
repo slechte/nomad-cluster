@@ -31,6 +31,8 @@
         include_localhost: True
       - cname: vault.service.consul
         include_localhost: True
+        sans:
+        - "*.vault.service.consul"
         altips:
         - 192.168.56.21
         - 192.168.56.22
