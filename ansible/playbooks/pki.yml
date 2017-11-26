@@ -29,8 +29,14 @@
         - 192.168.56.23
       - cname: client.global.nomad
         include_localhost: True
+      - cname: vault.service.consul
+        include_localhost: True
+        altips:
+        - 192.168.56.21
+        - 192.168.56.22
+        - 192.168.56.23
     pki_clients:
-      - consul-worker1
-      - consul-worker2
-      - consul-worker3
-      - consul-controller
+    - consul-worker1
+    - consul-worker2
+    - consul-worker3
+    - consul-controller

@@ -1,12 +1,18 @@
-# Allow creating tokens under "nomad-cluster" role. The role name should be
-# updated if "nomad-cluster" is not used.
+# Allow creating tokens under "nomad-cluster" token role. The token role name
+# should be updated if "nomad-cluster" is not used.
 path "auth/token/create/nomad-cluster" {
   capabilities = ["update"]
 }
 
-# Allow looking up "nomad-cluster" role. The role name should be updated if
-# "nomad-cluster" is not used.
+# Allow looking up "nomad-cluster" token role. The token role name should be
+# updated if "nomad-cluster" is not used.
 path "auth/token/roles/nomad-cluster" {
+  capabilities = ["read"]
+}
+
+# Allow looking up the token passed to Nomad to validate # the token has the
+# proper capabilities. This is provided by the "default" policy.
+path "auth/token/lookup-self" {
   capabilities = ["read"]
 }
 
@@ -25,7 +31,7 @@ path "auth/token/revoke-accessor" {
 
 # Allow checking the capabilities of our own token. This is used to validate the
 # token upon startup.
-path "/sys/capabilities-self" {
+path "sys/capabilities-self" {
   capabilities = ["update"]
 }
 
