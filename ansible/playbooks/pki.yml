@@ -22,6 +22,8 @@
         altips:
         - 192.168.56.23
       - cname: server.global.nomad
+        sans:
+          - nomad.service.consul
         include_localhost: True
         altips:
         - 192.168.56.21
