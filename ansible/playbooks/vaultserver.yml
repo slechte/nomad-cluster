@@ -14,8 +14,8 @@
     vault_config_listener_tls_disable: 0
     vault_tls_enable: True
     vault_tls_src_dir: /home/vagrant/pki
-    vault_tls_ca_file: "ca.pem"
-    vault_tls_cert_file: "server.global.nomad.pem"
+    vault_tls_ca_crt: "ca.pem"
+    vault_tls_crt: "server.global.nomad.pem"
     vault_tls_key_file: "server.global.nomad-key.pem"
     vault_config_consul_tls_ca_file: "ca.pem"
     vault_config_consul_tls_cert_file: "consul.{{ ansible_hostname }}.localdomain.pem"

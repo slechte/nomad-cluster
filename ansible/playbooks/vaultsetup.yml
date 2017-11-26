@@ -1,24 +1,35 @@
 ---
-# TODO: currently it only works with verify==False.
-# TODO: It should be made possible to specify the CA for the self signed SSL cert used by VAULT
 - hosts: controller
   vars:
-    vault_cacert: "/etc/ssl/certs/cluster-ca.pem"
+    vault_tls_ca_crt: "{{ vault_tls_src_dir }}/ca.pem"
+    vault_tls_dest_dir: "/etc/vault/ssl"
+    vault_tls_src_dir: "/home/vagrant/pki"
   environment:
     VAULT_ADDR: https://192.168.56.21:8200
-    VAULT_CAPATH: /etc/ssl/certs
-    VAULT_CACERT: /etc/ssl/certs/cluster-ca.pem
+    VAULT_CAPATH: /etc/vault/ssl
+    VAULT_CACERT: "{{vault_tls_ca_crt}}"
 
   tasks:
-  - name: "Ensure /etc/vault exists"
+  - name: Create SSL directory
     become: yes
     file:
-      path: "/etc/vault"
+      dest: "{{ vault_tls_dest_dir }}"
       state: directory
+      owner: root
+      group: root
+      mode: 0755
+
+  - name: Copy key material
+    become: True
+    copy:
+      src: "{{ vault_tls_src_dir }}/{{ item }}"
+      dest: "{{ vault_tls_dest_dir }}/{{ item }}"
+    with_items:
+    - ca.pem
 
   - name: "register vault status"
     hashivault_status:
-      ca_cert: "{{vault_cacert}}"
+      ca_cert: "{{vault_tls_ca_crt}}"
     ignore_errors: True
     register: vault_status
 
@@ -30,7 +41,7 @@
     block:
     - name: "init vault"
       hashivault_init:
-        ca_cert: "{{vault_cacert}}"
+        ca_cert: "{{vault_tls_ca_crt}}"
       register: vault_init
     - name: "backup keys"
       become: True
@@ -55,7 +66,7 @@
 
   - name: "register vault status"
     hashivault_status:
-      ca_cert: "{{vault_cacert}}"
+      ca_cert: "{{vault_tls_ca_crt}}"
     ignore_errors: True
     register: vault_status
 
@@ -68,7 +79,7 @@
 
   - name: "set nomad server policy"
     hashivault_policy_set:
-      ca_cert: "{{vault_cacert}}"
+      ca_cert: "{{vault_tls_ca_crt}}"
       name: nomad_server
       rules: "{{ lookup('file', 'nomad-server-policy.hcl')}}"
       token: "{{vault_init.root_token}}"
@@ -76,7 +87,7 @@
 
   - name: "set nomad cluster role"
     hashivault_write:
-      ca_cert: "{{vault_cacert}}"
+      ca_cert: "{{vault_tls_ca_crt}}"
       secret: /auth/token/roles/nomad-cluster
       data: "{{ lookup('file', 'nomad-cluster-role.json')}}"
       token: "{{vault_init.root_token}}"
@@ -97,7 +108,7 @@
       msg: "{{vault_nomad_token}}"
   - name: "create vault nomad token"
     hashivault_token_create:
-      ca_cert: "{{vault_cacert}}"
+      ca_cert: "{{vault_tls_ca_crt}}"
       display_name: "nomad"
       policies:
       - nomad_server

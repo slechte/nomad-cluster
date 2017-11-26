@@ -8,13 +8,15 @@
     with_items:
     - tar
     - unzip
-- include: playbooks/pki.yml
+
+- import_playbook: playbooks/pki.yml
   when: pki_create == True
 
-- include: playbooks/fix-mirror.yml
-- include: playbooks/servicediscovery.yml
-- include: playbooks/vaultserver.yml
-- include: playbooks/docker.yml
-- include: playbooks/clusterscheduler.yml
-- include: playbooks/monitoring.yml
-- include: playbooks/nomad-ui.yml
+- import_playbook: playbooks/fix-mirror.yml
+- import_playbook: playbooks/servicediscovery.yml
+- import_playbook: playbooks/vaultserver.yml
+- import_playbook: playbooks/vaultsetup.yml
+- import_playbook: playbooks/docker.yml
+- import_playbook: playbooks/clusterscheduler.yml
+- import_playbook: playbooks/monitoring.yml
+- import_playbook: playbooks/nomad-ui.yml
