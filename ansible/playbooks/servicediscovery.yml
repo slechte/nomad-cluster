@@ -1,3 +1,3 @@
 ---
-- include: consul.yml
-- include: dnsmasq-consul.yml
+- import_playbook: consul.yml
+- import_playbook: dnsmasq-consul.yml

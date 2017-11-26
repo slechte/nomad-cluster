@@ -1,5 +1,5 @@
 ---
-- include: prometheus.yml
-- include: prom_node_exporter.yml
-- include: prom_cadvisor.yml
-- include: grafana.yml
+- import_playbook: prometheus.yml
+- import_playbook: prom_node_exporter.yml
+- import_playbook: prom_cadvisor.yml
+- import_playbook: grafana.yml
