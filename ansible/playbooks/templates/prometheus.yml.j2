@@ -29,5 +29,8 @@ scrape_configs:
   - job_name: 'system-metrics'
     scrape_interval: 1m
     consul_sd_configs:
-    - server: '{{ansible_host}}:8500'
+    - server: '{{ansible_host}}:8543'
+      scheme: 'https'
       services: ['node_exporter', 'cadvisor']
+      tls_config:
+        ca_file: /etc/consul/ssl/ca.pem

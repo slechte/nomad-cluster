@@ -5,7 +5,7 @@
     file:
       path: "/etc/prometheus"
       state: directory
-      mode: "0700"
+      mode: "0755"
   - name: "create prometheus config"
     template:
       src: prometheus.yml.j2
@@ -18,5 +18,6 @@
       - "9090:9090"
       volumes:
       - "/etc/prometheus:/etc/prometheus"
+      - "/etc/consul/ssl/ca.pem:/etc/consul/ssl/ca.pem"
       restart_policy: unless-stopped
       restart: True
