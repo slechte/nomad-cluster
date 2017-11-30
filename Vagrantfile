@@ -21,8 +21,8 @@ Vagrant.configure(2) do |config|
                :server1     => {:ip => '192.168.56.21', :box => 'geerlingguy/ubuntu1604', :mem => '4096', :cpu => 1 },
                :server2     => {:ip => '192.168.56.22', :box => 'geerlingguy/ubuntu1604', :mem => '4096', :cpu => 1 },
                :server3     => {:ip => '192.168.56.23', :box => 'geerlingguy/ubuntu1604', :mem => '4096', :cpu => 1 },
-               :worker1     => {:ip => '192.168.56.24', :box => 'geerlingguy/ubuntu1604', :mem => '4096', :cpu => 1 },
-               :worker2     => {:ip => '192.168.56.25', :box => 'geerlingguy/ubuntu1604', :mem => '4096', :cpu => 1 },
+               :worker1     => {:ip => '192.168.56.24', :box => 'geerlingguy/ubuntu1604', :mem => '2048', :cpu => 1 },
+               :worker2     => {:ip => '192.168.56.25', :box => 'geerlingguy/ubuntu1604', :mem => '2048', :cpu => 1 },
              }
 
   machines.each do |machine_name, machine_details|
