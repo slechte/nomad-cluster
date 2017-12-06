@@ -1,0 +1,14 @@
+---
+- hosts: mongo
+
+  roles:
+    - role: greendayonfire.mongodb
+      become: True
+      mongodb_security_authorization: "enabled"
+      mongodb_login_host: 192.168.56.23
+      mongodb_net_bindip: 0.0.0.0
+      mongodb_replication_replset: rs0
+      mongodb_replication_params:
+      - { host_name: 192.168.56.21, host_port: "{{ mongodb_net_port }}" }
+      - { host_name: 192.168.56.22, host_port: "{{ mongodb_net_port }}" }
+      - { host_name: 192.168.56.23, host_port: "{{ mongodb_net_port }}" }

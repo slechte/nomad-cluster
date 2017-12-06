@@ -1,11 +1,18 @@
 - src: rattermeyer.docker
   version: v0.5
 
-- src: rattermeyer.consul
-  version: v0.5
+#- src: rattermeyer.consul
+#  version: v0.5
+#
+#- src: rattermeyer.nomad
+#  version: v0.2
+#
+#- src: jnv.unattended-upgrades
+#  version: v1.3.0
 
-- src: rattermeyer.nomad
-  version: v0.2
+# general mongodb, but primarily used for graylog2
+- src: greendayonfire.mongodb
+  version: v2.2.0
 
-- src: jnv.unattended-upgrades
-  version: v1.3.0
+- src: elastic.elasticsearch
+  version: 5.5.1

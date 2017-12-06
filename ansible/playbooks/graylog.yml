@@ -1,0 +1,28 @@
+---
+- hosts: graylog-server
+  vars:
+    graylog_tls_src_dir: /home/vagrant/pki
+    graylog_tls_dest_dir: /etc/graylog/ssl
+    graylog_tls_ca_cert: ca.pem
+    graylog_tls_server_cert: graylog_tls_server_cert
+    graylog_tls_server_key: graylog.service.consul-key.pem
+
+  pre_tasks:
+  - name: create target dir
+    file:
+      path: "{{ graylog_tls_dest_dir }}"
+      state: directory
+      mode: 0755
+  - name: Copy key material
+    become: True
+    copy:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+    with_items:
+      - { src: "{{ graylog_tls_src_dir }}/{{graylog_tls_ca_cert}}", dest: "{{ graylog_tls_dest_dir }}/{{graylog_tls_ca_cert}}" }
+      - { src: "{{ graylog_tls_src_dir }}/{{graylog_tls_server_cert}}", dest: "{{ graylog_tls_dest_dir }}/{{graylog_tls_server_cert}}" }
+      - { src: "{{ graylog_tls_src_dir }}/{{graylog_tls_server_key}}", dest: "{{ graylog_tls_dest_dir }}/{{graylog_tls_server_key}}" }
+  roles:
+    - role: local.graylog
+      graylog_rest_tls_cert_file: "{{ graylog_tls_dest_dir }}/{{graylog_tls_server_cert}}"
+      graylog_rest_tls_key_file:  "{{ graylog_tls_dest_dir }}/{{graylog_tls_server_key}}"

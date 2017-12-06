@@ -29,6 +29,12 @@
         - 192.168.56.21
         - 192.168.56.22
         - 192.168.56.23
+      - cname: graylog.service.consul
+        include_localhost: True
+        altips:
+        - 192.168.56.21
+        - 192.168.56.22
+        - 192.168.56.23
       - cname: client.global.nomad
         include_localhost: True
         altips:
