@@ -6,9 +6,9 @@
 #
 #- src: rattermeyer.nomad
 #  version: v0.2
-#
-#- src: jnv.unattended-upgrades
-#  version: v1.3.0
+
+- src: jnv.unattended-upgrades
+  version: v1.3.0
 
 # general mongodb, but primarily used for graylog2
 - src: greendayonfire.mongodb
