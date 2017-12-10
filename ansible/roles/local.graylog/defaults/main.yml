@@ -1,4 +1,9 @@
+# Installation
+graylog_version: '2.3'
+graylog_apt_deb_url:           "https://packages.graylog2.org/repo/packages/graylog-{{ graylog_version }}-repository_latest.deb"
+graylog_not_testing:           True
 # General
+graylog_server_defaults_file_path: '/etc/default/graylog-server'
 graylog_is_master:            'False'
 graylog_node_id_file:         '/etc/graylog/server/node-id'
 graylog_password_secret:      '2jueVqZpwLLjaWxV'
@@ -11,7 +16,9 @@ graylog_alert_check_interval: 60
 graylog_disable_sigar:        'False'
 
 # REST
-graylog_rest_listen_uri:              'http://0.0.0.0:9000/api/'
+graylog_rest_bind_ip:                 '0.0.0.0'
+graylog_rest_port:                    9000
+graylog_rest_listen_uri:              'http://{{graylog_rest_bind_ip}}:{{graylog_rest_port}}/api/'
 graylog_rest_transport_uri:           ''
 graylog_rest_enable_cors:             'True'
 graylog_rest_enable_gzip:             'True'

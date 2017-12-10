@@ -1,18 +1,28 @@
 ---
-- hosts: graylog-server
+- hosts: graylog_servers
   vars:
     graylog_tls_src_dir: /home/vagrant/pki
     graylog_tls_dest_dir: /etc/graylog/ssl
     graylog_tls_ca_cert: ca.pem
-    graylog_tls_server_cert: graylog_tls_server_cert
+    graylog_tls_server_cert: graylog.service.consul.pem
     graylog_tls_server_key: graylog.service.consul-key.pem
-
+    graylog_mongodb_db: graylog
+    graylog_mongodb_user: graylog
+    graylog_monogdb_user_password: graylog1
+    graylog_mongodb_admin_user: siteRootAdmin
+    graylog_mongodb_admin_password: passw0rd
+    graylog_mongodb_replica_set: rs0
+    graylog_rest_bind_ip: "{{hostvars[inventory_hostname]['ansible_enp0s8']['ipv4'].address}}"
+    graylog_mongodb_uri: "mongodb://{{graylog_mongodb_user}}:{{graylog_monogdb_user_password}}@192.168.56.21:27017,192.168.56.22:27017,192.168.56.23:27017/graylog"
+    graylog_web_listen_uri: "http://{{graylog_rest_bind_ip}}:9000/"
+    graylog_rest_listen_uri: "http://{{graylog_rest_bind_ip}}:9000/api/"
   pre_tasks:
   - name: create target dir
     file:
       path: "{{ graylog_tls_dest_dir }}"
       state: directory
       mode: 0755
+    become: True
   - name: Copy key material
     become: True
     copy:
@@ -22,6 +32,16 @@
       - { src: "{{ graylog_tls_src_dir }}/{{graylog_tls_ca_cert}}", dest: "{{ graylog_tls_dest_dir }}/{{graylog_tls_ca_cert}}" }
       - { src: "{{ graylog_tls_src_dir }}/{{graylog_tls_server_cert}}", dest: "{{ graylog_tls_dest_dir }}/{{graylog_tls_server_cert}}" }
       - { src: "{{ graylog_tls_src_dir }}/{{graylog_tls_server_key}}", dest: "{{ graylog_tls_dest_dir }}/{{graylog_tls_server_key}}" }
+  - name: create mongodb graylog db
+    mongodb_user:
+      database: "{{graylog_mongodb_db}}"
+      name: "{{graylog_mongodb_user}}"
+      password: "{{graylog_monogdb_user_password}}"
+      roles: readWrite,dbAdmin
+      login_user: "{{graylog_mongodb_admin_user}}"
+      login_password: "{{graylog_mongodb_admin_password}}"
+      replica_set: "{{graylog_mongodb_replica_set}}"
+      state: present
   roles:
     - role: local.graylog
       graylog_rest_tls_cert_file: "{{ graylog_tls_dest_dir }}/{{graylog_tls_server_cert}}"

@@ -1,0 +1,78 @@
+---
+- name: Ensure Java is installed
+  apt:
+    name: openjdk-8-jre
+    state: installed
+    update_cache: True
+  become: True
+
+- name: Graylog repository package should be downloaded
+  get_url:
+    url: "{{ graylog_apt_deb_url }}"
+    dest: '/tmp/graylog_repository.deb'
+
+- name: 'Package "apt-transport-https" should be installed'
+  apt:
+    name: 'apt-transport-https'
+    state: installed
+  become: True
+
+- name: Graylog repository package should be installed
+  apt:
+    deb: '/tmp/graylog_repository.deb'
+    state: installed
+    dpkg_options: 'force-all'
+  register: install_repo
+  become: True
+
+- name: APT cache should be updated
+  apt:
+    update_cache: True
+  become: True
+  when: install_repo.changed
+
+- name: Graylog server package should be installed
+  apt:
+    name: "graylog-server{% if graylog_server_version is defined %}={{ graylog_server_version }}{% endif %}"
+    state: present
+  become: True
+  notify: restart graylog-server
+
+- name: Directory should be created with correct ownership and privileges
+  file:
+    path: '/etc/graylog/server'
+    owner: graylog
+    group: graylog
+    mode: '0750'
+  become: True
+
+- name: Graylog server should be configured
+  template:
+    src: 'graylog.server.conf.j2'
+    dest: '/etc/graylog/server/server.conf'
+    owner: graylog
+    group: graylog
+    mode: '0644'
+  become: True
+  notify: restart graylog-server
+
+- name: Graylog server defaults should be configured
+  template:
+    src: 'graylog.server.default.j2'
+    dest: "{{ graylog_server_defaults_file_path }}"
+    owner: graylog
+    group: graylog
+    mode: '0644'
+  become: True
+  notify: restart graylog-server
+
+- name: Graylog server should start after reboot
+  file:
+    path: '/etc/init/graylog-server.override'
+    state: absent
+  become: True
+
+- meta: flush_handlers
+- name: Wait for Graylog server to startup
+  wait_for: host="{{graylog_rest_bind_ip}}" port="{{graylog_rest_port}}" delay=5 connect_timeout=1
+  when: graylog_not_testing

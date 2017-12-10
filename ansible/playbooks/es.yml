@@ -12,7 +12,9 @@
         transport.tcp.port: 9300,
         node.data: false,
         node.master: true,
-        bootstrap.memory_lock: false
+        bootstrap.memory_lock: false,
+        network.host: "_local_,_enp0s8_",
+        discovery.zen.minimum_master_nodes: 2
       }
   vars:
     es_scripts: false
