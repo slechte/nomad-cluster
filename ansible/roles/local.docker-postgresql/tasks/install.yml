@@ -1,0 +1,29 @@
+- name: ensure docker is installed
+  package:
+    name: docker.io
+  become: true
+
+- name: ensure docker is running
+  service:
+    name: docker
+    state: started
+
+- name: ensure docker-py
+  pip:
+    name: docker-py
+  become: True
+
+- name: start docker containers
+  docker_container:
+    name: "{{ postgresql_service_name }}"
+    image: postgres:10
+    network_mode: host
+    restart_policy: always
+    command: "postgres -c 'config_file=/etc/postgresql/postgresql.conf' -c 'hba_file=/etc/postgresql/pg_hba.conf'"
+    volumes:
+    - "{{ postgresql_data_directory }}:/var/lib/postgresql/data"
+    - "{{ postgresql_conf_directory }}/postgresql.conf:/etc/postgresql/postgresql.conf"
+    - "{{ postgresql_conf_directory }}/pg_hba.conf:/etc/postgresql/pg_hba.conf"
+    - "{{ postgresql_conf_directory }}/conf.d:/etc/postgresql/conf.d"
+    - "{{ postgresql_data_directory }}:{{ postgresql_data_directory }}"
+  become: True
