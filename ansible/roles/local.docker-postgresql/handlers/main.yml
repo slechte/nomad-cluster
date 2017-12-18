@@ -1,0 +1,7 @@
+- name: restart postgresql container
+  docker_container:
+    name: "{{ postgresql_service_name }}"
+    state: started
+    restart: True
+    restart_policy: always
+    restart_retries: 5

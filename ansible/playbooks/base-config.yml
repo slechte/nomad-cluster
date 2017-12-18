@@ -1,0 +1,7 @@
+---
+# perform some basic setup that should be standard for any new system
+# like configuring ntp
+- hosts: all
+  become: True
+  roles:
+    - role: geerlingguy.ntp
