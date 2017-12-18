@@ -1,0 +1,4 @@
+---
+- hosts: postgresql-servers
+  roles:
+  - role: local.docker-postgresql

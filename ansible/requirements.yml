@@ -16,3 +16,6 @@
 
 - src: elastic.elasticsearch
   version: 5.5.1
+
+- src: geerlingguy.ntp
+  version: 1.5.2
