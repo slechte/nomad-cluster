@@ -45,3 +45,40 @@ That should do the magic and provision a nomad cluster consisting of
 * prometheus / grafana
 * elasticsearch, mongodb replica set and graylog (TODO: not finished yet)
 * traefik
+
+### Servers
+
+You can access the server with the following ip-adresses:
+
+- server1: 192.168.56.21       
+  - consul: https://192.168.56.21:8543   
+  - vault-ui: http://192.168.56.21:8000      
+  - node_exporter: http://192.168.56.21:9100/   
+  - cadvisor: http://192.168.56.21:9110
+
+- server2: 192.168.56.22       
+  - consul: https://192.168.56.22:8543  
+  - prometheus: http://192.168.56.22:9090/graph       
+  - node_exporter: http://192.168.56.22:9100/   
+  - cadvisor: http://192.168.56.22:9110
+  
+- server3: 192.168.56.23       
+  - consul: https://192.168.56.23:8543  
+  - grafana: http://192.168.56.23:3000       
+  - node_exporter: http://192.168.56.23:9100/   
+  - cadvisor: http://192.168.56.23:9110
+
+- worker1: 192.168.56.24                                                  
+  - node_exporter: http://192.168.56.24:9100/   
+  - cadvisor: http://192.168.56.24:9110
+
+- worker2: 192.168.56.25                                                  
+  - node_exporter: http://192.168.56.25:9100/   
+  - cadvisor: http://192.168.56.25:9110
+
+- controller: 192.168.56.10
+
+### Credentials
+ 
+- grafana: admin:secret
+ 
