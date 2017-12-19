@@ -1,4 +1,28 @@
 ---
-- hosts: postgresql-servers
+- hosts: postgresql-master
   roles:
   - role: local.docker-postgresql
+    postgresql_users:
+    - name: secondary
+      pass: "{{postgresql_secondary_user_pwd}}"
+    postgresql_user_privileges:
+    - name: secondary                       # user name
+      role_attr_flags: "REPLICATION,LOGIN"  # role attribute flags
+    postgresql_pg_hba_custom:
+    - comment: used for streaming replication
+      type: host
+      database: replication
+      user: secondary
+      address: 192.168.56.0/24
+      method: md5
+
+- hosts: postgresql-secondaries
+  roles:
+  - role: local.docker-postgresql
+    postgresql_users:
+    - name: secondary
+      pass: "{{postgresql_secondary_user_pwd}}"
+    postgresql_user_privileges:
+    - name: secondary                       # user name
+      role_attr_flags: "REPLICATION,LOGIN"  # role attribute flags
+    postgresql_hot_standby: True
