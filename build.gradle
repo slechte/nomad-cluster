@@ -33,7 +33,7 @@ asciidoctorj {
 }
 
 
-task asciidoctorTask (dependsOn: ['generateHTML','generatePDF'])
+task asciidoctorTask (dependsOn: ['generateHTML'])
 
 
 tasks.withType(AsciidoctorTask) { docTask ->
@@ -49,7 +49,7 @@ tasks.withType(AsciidoctorTask) { docTask ->
     separateOutputDirs = false
 
     attributes 'toc': 'left',
-            'stylesheet': 'material-green.css',
+            'stylesheet': 'readthedocs.css',
             'stylesdir': 'assets/stylesheets',
             'imagesdir': 'assets/images'
 
@@ -75,6 +75,11 @@ task generatePDF (
     attributes \
             'diagramDir'         : file('build/asciidoc/pdf/assets/images/').path
     backends = ['pdf']
+}
+
+clean.doFirst {
+    delete "${rootDir}/docs/book"
+    println "${rootDir}/docs/book"
 }
 
 defaultTasks 'asciidoctorTask'
