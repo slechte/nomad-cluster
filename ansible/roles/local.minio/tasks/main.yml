@@ -1,0 +1,13 @@
+- name: "create minio data directory"
+  file:
+    path: "{{minio_data_directory}}"
+    state: directory
+  become: True
+
+- debug:
+    msg: "{{ for g in groups['minio-servers'] hostvars[g] done }}"
+
+#- name: "start minio container"
+#  docker_container:
+#    volumes:
+#    - "{{ minio_data_directory }}:/export"
