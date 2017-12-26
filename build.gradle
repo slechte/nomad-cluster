@@ -1,0 +1,85 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.asciidoctor:asciidoctorj-pdf:1.5.0-alpha.15'
+    }
+}
+
+plugins {
+    id 'org.asciidoctor.convert' version '1.5.3'
+    id 'com.github.jruby-gradle.base' version '1.4.0'
+}
+
+// Plugin so we can render AsciiDoc documents.
+apply plugin: 'org.asciidoctor.gradle.asciidoctor'
+// Plugin so we can use Ruby gems when rendering documents.
+apply plugin: 'com.github.jruby-gradle.base'
+import org.asciidoctor.gradle.AsciidoctorTask
+
+dependencies {
+    // gems dependency configuration is added by
+    // jruby-gradle-plugin. Here we define
+    // the gems we need in our build.
+    gems 'rubygems:asciidoctor-diagram:1.5.4'
+}
+
+asciidoctorj {
+    // We can change the AsciidoctorJ
+    // dependency version.
+    version = '1.5.5'
+}
+
+
+task asciidoctorTask (dependsOn: ['generateHTML'])
+
+
+tasks.withType(AsciidoctorTask) { docTask ->
+    dependsOn jrubyPrepare
+    // Asciidoctor task needs the
+    // asciidoctor-diagram gem, we installed
+    // with the jrubyPrepare task and
+    // gems dependency configuration.
+    requires = ['asciidoctor-diagram']
+    gemPath = jrubyPrepare.outputDir
+    sourceDir = file('book')
+    outputDir = file('docs/book')
+    separateOutputDirs = false
+
+    attributes 'toc': 'left',
+            'stylesheet': 'readthedocs.css',
+            'stylesdir': 'assets/stylesheets',
+            'imagesdir': 'assets/images'
+
+    resources {
+        from('doc/assets/images') {
+            include '**/*.png'
+        }
+        into 'assets/images'
+    }
+}
+
+task generateHTML (
+        type: AsciidoctorTask,
+        description: 'use html5 as asciidoc backend') {
+    attributes \
+            'diagramDir'         : '.'
+    backends = ['html5']
+}
+
+task generatePDF (
+        type: AsciidoctorTask,
+        description: 'use pdf as asciidoc backend') {
+    attributes \
+            'diagramDir'         : file('build/asciidoc/pdf/assets/images/').path
+    backends = ['pdf']
+}
+
+clean.doFirst {
+    delete "${rootDir}/docs/book"
+    println "${rootDir}/docs/book"
+}
+
+defaultTasks 'asciidoctorTask'

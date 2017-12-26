@@ -1,0 +1,19 @@
+== Platform Description
+
+This chapter explains how to setup a release version of the platform and
+what components you find, what they are used for and how to find your
+way around.
+
+=== Environment Preparation
+==== Vagrant
+
+You will need a working https://vagrantup.com[Vagrant] / https://www.virtualbox.org[VirtualBox] combination.
+Currently I am using vagrant 2.0.1 / VirtualBox 5.1.30 under Ubuntu 16.04.
+
+The root directory contains a `Vagrantfile` that specifies a https://www.vagrantup.com/docs/multi-machine/[multi machine] setup.
+This setup will create one ansible controller and the actual platform nodes.
+The further setup is run from the ansible controller.
+
+=== Configuration and Deployment
+
+=== Finding your way around
