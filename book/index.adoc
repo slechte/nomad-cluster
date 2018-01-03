@@ -1,0 +1,83 @@
+// header file for odp documentation
+//
+// Includes all the rest
+:toc:
+:toclevels: 3
+:imagesdir: ./assets/images
+:linkattrs:
+
+:numbered:
+== About
+
+The Open Delivery Platform project provides a fully working Continuous Delivery environment based on
+Nomad, Docker and Gitlab.
+The project was started to experiment with diffferent options and to have a playground.
+The idea is, that no project and team is the same. It does not make sense to provide a completely
+opinionated platform.
+Basically it should be possible to exchange any of the components used in this projects with other components, so you
+can customize the platform according to your needs.
+I will show you some ways how to come to valid architectural decisions.
+
+== Preface
+== Introduction
+== The Continuous Delivery Domain model
+=== Enabling Toolset
+==== Version Control
+==== Ticketing
+==== Wiki
+==== Persistent Chat
+==== Identity and Access Management
+==== Provisioning App
+=== Runtime Environment
+==== Service Discovery and Distributed Configuration
+==== Secret Management
+==== Cluster Scheduler
+==== Container Runtime
+==== Monitoring
+==== Continuous Delivery Tooling
+==== Cloud Native Storages
+
+* Distributed Object Storage (S3 / Minio)
+  - Minio
+  - Ceph
+* Distributed Block Storage (Glusterfs)
+  - GlusterFS (Network Filesystem)
+  - Lustre
+  - Ceph RADOS / CephFS
+
+=== Binary Repositories
+==== Role in Software Supply Chain
+==== Different kind of binary repos
+=== Pipelineing
+=== Processes
+==== The problem lies between the domains
+==== Code commit workflows
+==== Software Supply Chain: A security perspective
+== Stakeholders
+=== Personas and Empathy Maps
+=== Quality Attribute Workshops
+== The cloud agnostic requirement
+== Solution
+* Problem Statement + Constraints
+* Chosen Solution
+=== Alternatives
+* Alternatives investigates
+** Mantl.io
+** OpenShift
+** Cloud Foundry
+** Rancher
+
+
+== Components Setup and Configuration Explained
+=== TLS certificate setup
+==== Consul
+==== Vault
+==== Nomad
+==== Docker Distribution
+==== Maven, NPM
+==== Prometheus
+==== Grafana
+=== Log Management
+==== Graylog2
+
+include::platformdescription.adoc[]

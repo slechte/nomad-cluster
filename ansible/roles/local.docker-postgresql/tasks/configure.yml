@@ -117,6 +117,11 @@
   become: True
   register: postgresql_configuration_pt1
 
+- name: PostgreSQL | hot standby
+  set_fact:
+    postgresql_hot_standby: on
+  when: postgresql_is_secondary
+
 - name: PostgreSQL | Update configuration - pt. 2 (postgresql.conf)
   template:
     src: "postgresql.conf-{{ postgresql_version }}.j2"
@@ -127,6 +132,20 @@
     mode: 0640
   become: True
   register: postgresql_configuration_pt2
+
+- name: PostgreSQL | Update configuration - pt. 3 (recovery.conf)
+  template:
+    src: "recovery.conf-{{ postgresql_version }}.j2"
+    dest: "{{postgresql_data_directory}}/recovery.conf"
+    owner: "{{ postgresql_service_user }}"
+    group: "{{ postgresql_service_group }}"
+    mode: 0640
+  become: True
+  register: postgresql_configuration_pt3
+  when: postgresql_is_secondary
+  notify: restart postgresql container
+
+
 
 # TODO: muss in einen Aufruf innerhalb des containers abgeändert werden
 #
