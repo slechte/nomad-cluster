@@ -1,0 +1,37 @@
+---
+- hosts: webservers
+  tasks:
+  
+  - name: "Create web root directory"
+    file: 
+      path: /var/www
+      state: directory
+      mode: 0755
+    become: true
+  
+  - name: "Copy welcome page"
+    copy:  
+      src: index.html
+      dest: /var/www/index.html
+      mode: 0644
+    become: true
+  
+  - name: "start nginx container"
+    docker_container: 
+      name: "nginx"
+      image: nginx
+      volumes:
+      - "/home/vagrant/html:/usr/share/nginx/html:ro"
+      published_ports:
+      - "80:80"
+      restart_policy: unless-stopped
+      restart: True
+    become: True
+
+  - name: register nginx service
+    consul: 
+      service_name: nginx
+      service_port: "80"
+      service_address: "{{ansible_host}}"
+      interval: 2m
+      http: http://{{ansible_host}}
