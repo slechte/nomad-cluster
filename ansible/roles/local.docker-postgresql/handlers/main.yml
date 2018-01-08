@@ -3,5 +3,6 @@
     name: "{{ postgresql_service_name }}"
     state: started
     restart: True
-    restart_policy: always
+    restart_policy: on-failure
     restart_retries: 5
+  become: True

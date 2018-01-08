@@ -14,6 +14,8 @@ postgresql_ctype: "{{ postgresql_ctype_parts | join('.') }}"
 
 postgresql_admin_user: "postgres"
 postgresql_default_auth_method: "trust"
+postgresql_is_secondary: False
+
 
 # The user/group that will run postgresql process or service
 postgresql_service_user: "{{ postgresql_admin_user }}"
@@ -686,7 +688,26 @@ postgresql_exit_on_error: off
 # Reinitialize after backend crash?
 postgresql_restart_after_crash: on
 
-
+#------------------------------------------------------------------------------
+# Recovery settings
+#------------------------------------------------------------------------------
+postgresql_restore_command: ''        
+postgresql_archive_cleanup_command: ''
+postgreql_recovery_end_command:     ''
+postgresql_recovery_target_name: ''
+postgresql_recovery_target_time: ''
+postgresql_recovery_target_xid: ''
+postgresql_recovery_target_lsn: ''
+postgresql_recovery_target_inclusive: True
+postgresql_recovery_target: ''
+postgresql_recovery_target_timeline: 'latest'
+postgresql_recovery_target_action: ''
+postgresql_standby_mode: on
+postgresql_primary_conninfo: ''
+postgresql_primary_slot_name: ''
+postgresql_trigger_file: ''
+postgresql_recovery_min_apply_delay: 0
+#
 #------------------------------------------------------------------------------
 # PGTUNE
 #------------------------------------------------------------------------------

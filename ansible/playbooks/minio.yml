@@ -1,0 +1,4 @@
+---
+- hosts: minio-servers
+  roles:
+  - local.minio
