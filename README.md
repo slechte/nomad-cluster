@@ -78,6 +78,7 @@ You can access the server with the following ip-adresses:
   - vault-ui: http://192.168.56.21:8000      
   - node_exporter: http://192.168.56.21:9100/   
   - cadvisor: http://192.168.56.21:9110
+  - nomad-ui: http://192.168.56.21:3000
 
 - server2: 192.168.56.22       
   - consul: https://192.168.56.22:8543  
