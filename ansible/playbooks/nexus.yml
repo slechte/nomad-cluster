@@ -1,0 +1,35 @@
+---
+- hosts: nexus-hosts
+  tasks:
+  
+  
+  - name: "Create nexus data directory"
+    file: 
+      path: /var/nexus-data
+      state: directory
+      mode: 0744
+      owner: 200
+    become: true
+    
+   
+         
+         
+  - name: "start nexus container"
+    docker_container: 
+      name: "nexus"
+      image: sonatype/nexus3
+      volumes:
+      - "/var/nexus-data:/nexus-data"
+      published_ports:
+      - "8081:8081"
+      restart_policy: unless-stopped
+      restart: True
+    become: True
+
+  - name: register nexus service
+    consul: 
+      service_name: nexus
+      service_port: "8081"
+      service_address: "{{ansible_host}}"
+      interval: 2m
+      http: http://{{ansible_host}}:8081
