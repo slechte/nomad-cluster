@@ -21,3 +21,10 @@
       - "/etc/consul/ssl/ca.pem:/etc/consul/ssl/ca.pem"
       restart_policy: unless-stopped
       restart: True
+  - name: register prometheus service
+    consul: 
+      service_name: prometheus
+      service_port: "9090"
+      service_address: "{{ansible_host}}"
+      interval: 2m
+      http: http://{{ansible_host}}:9090

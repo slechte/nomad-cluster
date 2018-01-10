@@ -34,3 +34,12 @@
         GF_SECURITY_ADMIN_PASSWORD: secret
       restart_policy: unless-stopped
       restart: True
+      
+  - name: register grafana service
+    consul: 
+      service_name: grafana
+      service_port: "3000"
+      service_address: "{{ansible_host}}"
+      interval: 2m
+      http: http://{{ansible_host}}:3000
+
