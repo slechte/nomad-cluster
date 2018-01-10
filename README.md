@@ -105,5 +105,5 @@ You can access the server with the following ip-adresses:
 ### Credentials
  
 - grafana: admin:secret
-- vault-ui: Use token authentification. You can use the token in /etc/vault on the controller server.
+- vault-ui: Use token authentification. You can use the root_token in /etc/vault/keys.json on the controller server.
  
