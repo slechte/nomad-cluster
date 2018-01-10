@@ -71,7 +71,7 @@ To mount the folders automatically at boot you can add the commands to /etc/rc.l
 
 ### Servers
 
-You can access the server with the following ip-adresses:
+You can access the server with the following ip-addresses:
 
 - server1: 192.168.56.21       
   - consul: https://192.168.56.21:8543   
@@ -79,12 +79,14 @@ You can access the server with the following ip-adresses:
   - node_exporter: http://192.168.56.21:9100/   
   - cadvisor: http://192.168.56.21:9110
   - nomad-ui: http://192.168.56.21:3000
+  - nexus: http://192.168.56.21:8081
 
 - server2: 192.168.56.22       
   - consul: https://192.168.56.22:8543  
   - prometheus: http://192.168.56.22:9090/graph       
   - node_exporter: http://192.168.56.22:9100/   
   - cadvisor: http://192.168.56.22:9110
+  - nginx: http://192.168.56.22:80
   
 - server3: 192.168.56.23       
   - consul: https://192.168.56.23:8543  
@@ -106,4 +108,4 @@ You can access the server with the following ip-adresses:
  
 - grafana: admin:secret
 - vault-ui: Use token authentification. You can use the root_token in /etc/vault/keys.json on the controller server.
- 
+- nexus: admin:admin123 
