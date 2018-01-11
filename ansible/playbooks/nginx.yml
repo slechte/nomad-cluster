@@ -21,7 +21,7 @@
       name: "nginx"
       image: nginx
       volumes:
-      - "/home/vagrant/html:/usr/share/nginx/html:ro"
+      - "/var/www:/usr/share/nginx/html:ro"
       published_ports:
       - "80:80"
       restart_policy: unless-stopped

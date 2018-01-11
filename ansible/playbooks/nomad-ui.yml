@@ -20,6 +20,8 @@
       env:
         # TODO should be https://nomad.service.consul:4646
         NOMAD_ADDR: https://192.168.56.21:4646
+        NOMAD_CLIENT_CERT: /etc/nomad/ssl/client.global.nomad.pem
+        NOMAD_CLIENT_KEY: /etc/nomad/ssl/client.global.nomad-key.pem
         NOMAD_CACERT: /etc/nomad/ssl/ca.pem
         NOMAD_ENABLE: 1
         CONSUL_ENABLE: 1
